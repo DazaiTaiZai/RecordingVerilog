@@ -1,1 +1,50 @@
+p1gates.v (made under IV)
+// We will start with Basic logic gates module making 
+module and_gate (
+    input A , B,
+    output Y
 
+);
+// Since we have specified about our inputs and output, we will simply assign the module operation that is AND and end the module.
+
+    assign Y = A & B;// AND operation is assigned by '&' for bitwise operation , && is used for logical operations
+endmodule 
+
+Tbp1gates.v(testbench initiated for p1gates.v)
+
+`timescale 1ns/1ps
+module testbench;
+    reg A , B;
+    wire Y;
+
+// time to include our boolean module and_gate we have in the same directory.
+    and_gate uut(
+        .A(A),
+        .B(B),
+        .Y(Y)
+    );  // we used uut for unit or module under test
+
+    initial begin
+        $monitor("A=%b B=%b | Y=%b" ,A , B , Y);
+
+        A = 0; B= 0; #10 // we have provided first case for Tb or test bench , the #10 is waiting time before it jumps to next entry. It helps us in analysing waves when we compile these and see their waves in vcd format in gtkwaves.
+        A = 0; B = 1; #10;
+        A = 1; B = 0; #10;
+        A = 1; B = 1; #10;
+        $finish;
+    end
+endmodule 
+
+# Now, open terminal and if you have icarus verilog (am using icarus ) , type iverilog -o testbench.out (this will create a compiled form of your tbp1 and p1) Tbp1gates.v p1gates.v
+then , display your compiled file with vvp testbench.out.
+
+
+
+### OUTPUT display {Note - We will use this file in Gtkwaves too : ) }
+A=0 B=0 | Y=0
+A=0 B=1 | Y=0
+A=1 B=0 | Y=0
+A=1 B=1 | Y=1
+Tbp1gates.v:20: $finish called at 40000 (1ps)
+
+## thats about it , we are done with creation and performance of our first verilog file.
